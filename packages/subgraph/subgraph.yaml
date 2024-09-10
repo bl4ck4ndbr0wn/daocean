@@ -1,0 +1,70 @@
+specVersion: 0.0.4
+description: MultiDAOTreasury Subgraph
+repository: https://github.com/scaffold-eth/se-2/packages/subgraph/
+schema:
+  file: ./src/schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: MultiDAOTreasury
+    network: localhost
+    source:
+      abi: MultiDAOTreasury
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - DAOCreated
+        - FundsDeposited
+        - FundsTransferred
+        - InternalTransfer
+        - LoanApproved
+        - LoanDisbursed
+        - LoanRepaid
+        - LoanRequested
+        - MemberJoinedDAO
+        - OwnershipTransferred
+        - ProposalCreated
+        - ProposalExecuted
+        - ProposalVoteCast
+        - SignatoryAdded
+        - SignatoryRemoved
+        - VoteCast
+      abis:
+        - name: MultiDAOTreasury
+          file: ./abis/localhost_MultiDAOTreasury.json
+      eventHandlers:
+        - event: DAOCreated(uint256,string,indexed address)
+          handler: handleDAOCreated
+        - event: FundsDeposited(uint256,indexed address,uint256)
+          handler: handleFundsDeposited
+        - event: FundsTransferred(uint256,indexed address,uint256)
+          handler: handleFundsTransferred
+        - event: InternalTransfer(uint256,indexed address,indexed address,uint256)
+          handler: handleInternalTransfer
+        - event: LoanApproved(uint256,indexed address,uint256)
+          handler: handleLoanApproved
+        - event: LoanDisbursed(uint256,indexed address,uint256)
+          handler: handleLoanDisbursed
+        - event: LoanRepaid(uint256,indexed address,uint256)
+          handler: handleLoanRepaid
+        - event: LoanRequested(uint256,indexed address,uint256)
+          handler: handleLoanRequested
+        - event: MemberJoinedDAO(uint256,indexed address)
+          handler: handleMemberJoinedDAO
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: ProposalCreated(uint256,indexed address,uint256,string,uint8)
+          handler: handleProposalCreated
+        - event: ProposalExecuted(uint256,indexed uint256,uint256)
+          handler: handleProposalExecuted
+        - event: ProposalVoteCast(uint256,indexed address,indexed uint256,uint256)
+          handler: handleProposalVoteCast
+        - event: SignatoryAdded(uint256,indexed address)
+          handler: handleSignatoryAdded
+        - event: SignatoryRemoved(uint256,indexed address)
+          handler: handleSignatoryRemoved
+        - event: VoteCast(uint256,indexed address,indexed address,indexed uint256,uint256)
+          handler: handleVoteCast
+      file: ./src/mapping.ts

@@ -1,0 +1,161 @@
+type DAOCreated @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  name: String! # string
+  owner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FundsDeposited @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  member: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FundsTransferred @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  recipient: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type InternalTransfer @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  from: Bytes! # address
+  to: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LoanApproved @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  member: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LoanDisbursed @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  member: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LoanRepaid @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  member: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type LoanRequested @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  member: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type MemberJoinedDAO @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  member: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ProposalCreated @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  proposer: Bytes! # address
+  amount: BigInt! # uint256
+  description: String! # string
+  proposalType: Int! # uint8
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ProposalExecuted @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  proposalId: BigInt! # uint256
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ProposalVoteCast @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  voter: Bytes! # address
+  proposalId: BigInt! # uint256
+  votes: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SignatoryAdded @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  newSignatory: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SignatoryRemoved @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  signatory: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type VoteCast @entity(immutable: true) {
+  id: Bytes!
+  daoId: BigInt! # uint256
+  voter: Bytes! # address
+  borrower: Bytes! # address
+  loanRequestId: BigInt! # uint256
+  votes: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
