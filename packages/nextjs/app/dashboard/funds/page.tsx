@@ -1,18 +1,64 @@
+"use client";
+
+import { Avatar, AvatarFallback, AvatarImage } from "~~/components/ui/avatar";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~~/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~~/components/ui/table";
+import { useDeployedContractInfo, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+
+import { Button } from "~~/components/ui/button";
+import { Input } from "~~/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import type { NextPage } from "next";
-import { Avatar, AvatarFallback, AvatarImage } from "~~/components/ui/avatar";
-import { Button } from "~~/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~~/components/ui/card";
-import { Input } from "~~/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~~/components/ui/table";
-import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
+import { gql } from "@apollo/client";
+import { useDao } from "~~/context/daoContext";
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
 
-export const metadata = getMetadata({
-  title: "Join Dao",
-  description: "Debug your deployed 🏗 Scaffold-ETH 2 contracts in an easy way",
-});
+const GET_FUNDSLIST = gql`
+  query MyQuery {
+    fundsDepositeds(first: 20, orderBy: id, orderDirection: desc) {
+      id
+      member
+      amount
+      blockTimestamp
+      transactionHash
+    }
+  }
+`;
 
 const DepositFunds: NextPage = () => {
+  const { selectedDAO } = useDao(); // Access the selected DAO
+  const [amount, setAmount] = useState<bigint>(BigInt(0));
+  const { loading, error, data: fundData } = useQuery(GET_FUNDSLIST);
+
+  const { writeContractAsync: writeMultiDAOTreasuryAsync, isPending } = useScaffoldWriteContract("MultiDAOTreasury");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Convert the input value to bigint
+    const amountBigInt = BigInt(value || "0");
+    setAmount(amountBigInt);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedDAO?.daoId) {
+      console.error("daoId is undefined");
+      return;
+    }
+
+    const daoId = BigInt(selectedDAO.daoId);
+
+    try {
+      await writeMultiDAOTreasuryAsync({
+        functionName: "depositFunds",
+        args: [daoId, amount],
+      });
+    } catch (e) {
+      console.error("Error creating DAO:", e);
+    }
+  };
+
   return (
     <div className="flex-1 py-12 px-6 md:px-12 lg:px-24">
       <div className="space-y-8">
@@ -26,10 +72,17 @@ const DepositFunds: NextPage = () => {
             <CardDescription>Use our supported stablecoin to add funds to the DAO treasury.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="grid gap-4">
+            <form className="grid gap-4" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <Label htmlFor="amount">Deposit Amount</Label>
-                <Input id="amount" type="number" placeholder="Enter amount" min="0" step="0.01" />
+                <Input
+                  id="amount"
+                  type="number"
+                  value={amount.toString()}
+                  onChange={handleChange}
+                  placeholder="Enter amount"
+                  min="0"
+                />
                 <p className="text-sm text-muted-foreground">
                   Deposits must be made in our supported stablecoin, USDC. The minimum deposit is $100.
                 </p>
@@ -44,60 +97,40 @@ const DepositFunds: NextPage = () => {
           <Table className="mt-4">
             <TableHeader>
               <TableRow>
+                <TableHead>Id</TableHead>
+                <TableHead>Transaction Hash</TableHead>
                 <TableHead>Member</TableHead>
                 <TableHead>Amount</TableHead>
                 <TableHead>Date</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Avatar>
-                      <AvatarImage src="/placeholder-user.jpg" alt="@username" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">John Doe</p>
-                      <p className="text-muted-foreground text-sm">0x123...abc</p>
+              {fundData?.fundsDepositeds.map((fund: any, index: number) => (
+                <TableRow key={index}>
+                  <TableCell>${fund.id}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Avatar>
+                        <AvatarImage src="/placeholder-user.jpg" alt={fund.member} />
+                        <AvatarFallback>{fund.member.slice(2, 4).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{fund.member}</p>
+                        <p className="text-muted-foreground text-sm">
+                          {`${fund.member.slice(0, 6)}...${fund.member.slice(-4)}`}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell>$1,000.00</TableCell>
-                <TableCell>2023-04-15</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Avatar>
-                      <AvatarImage src="/placeholder-user.jpg" alt="@username" />
-                      <AvatarFallback>JS</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">Jane Smith</p>
-                      <p className="text-muted-foreground text-sm">0x456...def</p>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>$500.00</TableCell>
-                <TableCell>2023-04-10</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Avatar>
-                      <AvatarImage src="/placeholder-user.jpg" alt="@username" />
-                      <AvatarFallback>MJ</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">Michael Johnson</p>
-                      <p className="text-muted-foreground text-sm">0x789...ghi</p>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>$750.00</TableCell>
-                <TableCell>2023-04-05</TableCell>
-              </TableRow>
+                  </TableCell>
+                  {/* Assuming the amount is in Wei */}
+                  {/* <TableCell>${(fund.amount / 1e18).toLocaleString()}</TableCell> */}
+                  <TableCell>${fund.amount.toLocaleString()}</TableCell>
+
+                  <TableCell>{new Date(fund.blockTimestamp * 1000).toLocaleDateString()}</TableCell>
+
+                  <TableCell>{fund.transactionHash}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>

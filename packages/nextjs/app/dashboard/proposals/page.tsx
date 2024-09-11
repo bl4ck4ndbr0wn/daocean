@@ -38,7 +38,7 @@ const Proposal: NextPage = () => {
     try {
       await writeMultiDAOTreasuryAsync({
         functionName: "createProposal",
-        args: [BigInt(selectedDAO?.daoId), proposalType, amount, amount],
+        args: [BigInt(selectedDAO?.daoId), proposalType, amount, description],
       });
     } catch (e) {
       console.error("Error creating DAO:", e);

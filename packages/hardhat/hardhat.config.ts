@@ -25,7 +25,7 @@ const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z
 const stablecoinAddresses = {
   mainnet: process.env.STABLECOIN_ADDRESS_MAINNET || "0xMainnetStablecoinAddress", // Replace with actual mainnet address
   testnet: process.env.STABLECOIN_ADDRESS_TESTNET || "0xTestnetStablecoinAddress", // Replace with actual testnet address
-  localhost: process.env.STABLECOIN_ADDRESS_LOCALHOST || "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", // Replace with actual local address
+  localhost: process.env.STABLECOIN_ADDRESS_LOCALHOST || "0xc8d7107B04409132BD8B7A9f48A9Bb2AFB11102F", // Replace with actual local address
 };
 
 const config: HardhatUserConfig = {

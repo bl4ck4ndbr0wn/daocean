@@ -123,8 +123,7 @@ contract MultiDAOTreasury is Ownable, ReentrancyGuard {
 
 	modifier onlyMember(uint256 _daoId) {
 		require(
-			daos[_daoId].members[msg.sender].isMember &&
-				daos[_daoId].members[msg.sender].isApproved,
+			daos[_daoId].members[msg.sender].isMember,
 			"Not an approved DAO member"
 		);
 		_;
