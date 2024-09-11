@@ -1,15 +1,14 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "~~/components/ui/avatar";
-import { useDeployedContractInfo, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-
-import { Button } from "~~/components/ui/button";
-import { Input } from "~~/components/ui/input";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { NextPage } from "next";
 import { useLocalStorage } from "usehooks-ts";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "~~/components/ui/avatar";
+import { Button } from "~~/components/ui/button";
+import { Input } from "~~/components/ui/input";
+import { useDeployedContractInfo, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 const CreateDao: NextPage = () => {
   // State to manage input values

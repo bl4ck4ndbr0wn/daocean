@@ -1,5 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { Loader2 } from "lucide-react";
+import type { NextPage } from "next";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~~/components/ui/accordion";
 import {
   AlertDialog,
@@ -12,19 +18,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~~/components/ui/alert-dialog";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~~/components/ui/card";
-import {
-  useScaffoldWriteContract,
-} from "~~/hooks/scaffold-eth";
-
 import { Button } from "~~/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~~/components/ui/card";
 import { Input } from "~~/components/ui/input";
-import type { NextPage, NextPage } from "next";
-import { Loader2 } from "lucide-react";
-import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client";
-import { useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 export const GET_DAOLIST = gql`
   query MyQuery {
@@ -51,7 +48,7 @@ const JoinDao: NextPage = () => {
   const { writeContractAsync: writeMultiDAOTreasuryAsync, isPending } = useScaffoldWriteContract("MultiDAOTreasury");
 
   // Handle form submission
-  const handleRequestMembership = async (daoId:bigint) => {
+  const handleRequestMembership = async (daoId: bigint) => {
     try {
       await writeMultiDAOTreasuryAsync({
         functionName: "joinDAO",
@@ -80,9 +77,11 @@ const JoinDao: NextPage = () => {
             <Button variant="outline">Search</Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {loading &&  <div className="mt-14">
-            <span className="loading loading-spinner loading-lg"></span>
-          </div>}
+            {loading && (
+              <div className="mt-14">
+                <span className="loading loading-spinner loading-lg"></span>
+              </div>
+            )}
             {daoList.map(dao => (
               <Card key={dao.id}>
                 <CardHeader>
@@ -110,10 +109,9 @@ const JoinDao: NextPage = () => {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction disabled={isPending} onClick={() => handleRequestMembership(dao.daoId)} >
-                        {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Request Membership "}
-
-                          </AlertDialogAction>
+                        <AlertDialogAction disabled={isPending} onClick={() => handleRequestMembership(dao.daoId)}>
+                          {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Request Membership "}
+                        </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>

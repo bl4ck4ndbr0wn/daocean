@@ -1,8 +1,9 @@
 "use client";
 
 import { type JSX, type SVGProps, useState } from "react";
+import router from "next/dist/shared/lib/router/router";
 import { Label } from "@radix-ui/react-label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
 import type { NextPage } from "next";
 import { Avatar, AvatarFallback, AvatarImage } from "~~/components/ui/avatar";
 import { Button } from "~~/components/ui/button";
@@ -10,9 +11,39 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~~/co
 import { Input } from "~~/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~~/components/ui/table";
 import { Textarea } from "~~/components/ui/textarea";
+import { useDao } from "~~/context/daoContext";
+import { useDeployedContractInfo, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
+export enum ProposalType {
+  Investment = 1,
+  ProjectFunding = 2,
+  TreasuryDiversification = 3,
+  FeeAdjustment = 4,
+}
+
 const Proposal: NextPage = () => {
+  const { selectedDAO, setSelectedDAO } = useDao();
+  const [proposalType, setProposalType] = useState<ProposalType>(BigInt(0));
+  const [amount, setAmount] = useState<bigint>(BigInt(0));
+  const [description, setDescription] = useState("");
+
+  const { isLoading: deployedContractLoading } = useDeployedContractInfo("MultiDAOTreasury");
+
+  const { writeContractAsync: writeMultiDAOTreasuryAsync, isPending } = useScaffoldWriteContract("MultiDAOTreasury");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await writeMultiDAOTreasuryAsync({
+        functionName: "createProposal",
+        args: [BigInt(selectedDAO?.daoId), proposalType, amount, amount],
+      });
+    } catch (e) {
+      console.error("Error creating DAO:", e);
+    }
+  };
   return (
     <div className="w-full  mx-auto   md:px-12">
       <div className="space-y-8">
@@ -31,28 +62,45 @@ const Proposal: NextPage = () => {
               <CardDescription>Enter the details of your proposal for the DAO to consider.</CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
                   <Label htmlFor="type">Proposal Type</Label>
-                  <Select id="type">
+                  <Select
+                    id="type"
+                    value={proposalType}
+                    onValueChange={value => setProposalType(value as ProposalType)}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select proposal type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="investment">Investment</SelectItem>
-                      <SelectItem value="project-funding">Project Funding</SelectItem>
-                      <SelectItem value="governance">Governance</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value={ProposalType.Investment}>Investment</SelectItem>
+                      <SelectItem value={ProposalType.ProjectFunding}>Project Funding</SelectItem>
+                      <SelectItem value={ProposalType.TreasuryDiversification}>Treasury Diversification</SelectItem>
+                      <SelectItem value={ProposalType.FeeAdjustment}>Fee Adjustment</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
                   <Label htmlFor="amount">Requested Amount</Label>
-                  <Input id="amount" type="number" placeholder="Enter amount" min="0" />
+                  <Input
+                    id="amount"
+                    type="number"
+                    value={amount}
+                    onChange={e => setAmount(e.target.value)}
+                    placeholder="Enter amount"
+                    min="0"
+                  />
                 </div>
                 <div>
                   <Label htmlFor="description">Description</Label>
-                  <Textarea id="description" placeholder="Provide details about your proposal" rows={4} />
+                  <Textarea
+                    id="description"
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    placeholder="Provide details about your proposal"
+                    rows={4}
+                  />
                 </div>
                 <Button type="submit" className="w-full">
                   Submit Proposal
@@ -60,6 +108,7 @@ const Proposal: NextPage = () => {
               </form>
             </CardContent>
           </Card>
+
           <div className="space-y-4">
             <Card>
               <CardHeader>

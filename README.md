@@ -1,4 +1,8 @@
-# 🏗 Scaffold-ETH 2
+# Empower Your DAO with Daocean
+
+Daocean is a decentralized platform that enables DAOs to collectively manage their funds, making decentralized governance a reality.
+
+## 🏗 Scaffold-ETH 2
 
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Documentation</a> |
@@ -71,7 +75,6 @@ yarn start
 
 Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
 
-
 &nbsp;
 
 ## 🚀 Setup The Graph Integration
@@ -142,11 +145,11 @@ yarn local-ship
 
 > This command does the following all in one… 🚀🚀🚀
 
--   Copies the contracts ABI from the hardhat/deployments folder
--   Generates the networks.json file
--   Generates AssemblyScript types from the subgraph schema and the contract ABIs.
--   Compiles and checks the mapping functions.
--   … and deploy a local subgraph!
+- Copies the contracts ABI from the hardhat/deployments folder
+- Generates the networks.json file
+- Generates AssemblyScript types from the subgraph schema and the contract ABIs.
+- Compiles and checks the mapping functions.
+- … and deploy a local subgraph!
 
 > If you get an error ts-node you can install it with the following command
 
@@ -175,21 +178,21 @@ Ok so we have successfully created a new function, event and updated our Subgrap
 
 We will create the following:
 
--   Address component for our wallet
--   Balance component for our wallet
--   Input field to update our greeting
--   Button to send the 'setGreeting' transaction
--   Input field for our reciever
--   Input field for our message
--   Button to send the 'sendMessage' transaction
--   Table to display our messages
+- Address component for our wallet
+- Balance component for our wallet
+- Input field to update our greeting
+- Button to send the 'setGreeting' transaction
+- Input field for our reciever
+- Input field for our message
+- Button to send the 'sendMessage' transaction
+- Table to display our messages
 
 Consult the following documentation to learn more about our implementation.
 
--   [Wagmi Hooks](https://wagmi.sh/react/hooks/useAccount)
--   [Scaffold-ETH Hooks](https://github.com/scaffold-eth/eth-ui/blob/next/packages/eth-hooks/README.md)
--   [Scaffold-ETH Components](https://github.com/scaffold-eth/eth-components)
--   [Additional README](https://scaffold-eth-2-docs.vercel.app/hooks/)
+- [Wagmi Hooks](https://wagmi.sh/react/hooks/useAccount)
+- [Scaffold-ETH Hooks](https://github.com/scaffold-eth/eth-ui/blob/next/packages/eth-hooks/README.md)
+- [Scaffold-ETH Components](https://github.com/scaffold-eth/eth-components)
+- [Additional README](https://scaffold-eth-2-docs.vercel.app/hooks/)
 
 &nbsp;
 
@@ -525,11 +528,11 @@ Now that our smart contract is on a public testnet it is time to push our Subgra
 
 #### ✅ Step 1: Create your Subgraph on the Studio ✅
 
--   Navigate to https://thegraph.com/studio
--   Connect your wallet
--   Click Create a Subgraph
--   Name your Subgraph
--   Select the test network you deployed to in previous steps
+- Navigate to <https://thegraph.com/studio>
+- Connect your wallet
+- Click Create a Subgraph
+- Name your Subgraph
+- Select the test network you deployed to in previous steps
 
 &nbsp;
 
@@ -842,18 +845,18 @@ Auto-detected Project Settings (Next.js):
 
 &nbsp;
 
-## 💁🏻 Resources / More help!
+## 💁🏻 Resources / More help
 
--   [Wagmi Hooks](https://wagmi.sh/react/hooks/useAccount)
--   [Scaffold-ETH Hooks](https://github.com/scaffold-eth/eth-ui/blob/next/packages/eth-hooks/README.md)
--   [Scaffold-ETH Components](https://github.com/scaffold-eth/eth-components)
--   [Additional README](https://scaffold-eth-2-docs.vercel.app/hooks/)
--   [Kevin's Social Media Contacts](https://hihello.me/p/6a93d967-1d9f-4818-ae0c-2dc9f86e01aa)
--   [Kevin's Mirror.xyz post](https://mirror.xyz/cryptomastery.eth/uGHEHnskoVwX-mWjAiidXfGt6QowCoKl_yX4okwZc0E)
--   [Scaffold-ETH Stuff](https://hihello.me/p/b914b816-fb27-4909-9525-16c74c7e7eef)
--   [Scaffold-ETH Workshops at ETH Global](https://www.youtube.com/results?search_query=Scaffold-ETH+Workshop+ETHGlobal+Kevin+Jones)
--   [The Graph Workshops at ETH Global](https://www.youtube.com/results?search_query=The+Graph+Workshop+ETHGlobal)
--   [0 to Buidl Guidl](https://lulox.notion.site/0-to-BuidlGuidl-4e1e835ba37c414199fe7a63cb5807e3)
--   [Austin's Web2 to Web3 Curriculum](https://github.com/austintgriffith/web2-to-web3-curriculum)
--   [Naders Web3 Resources for Developers](https://naderdabit.notion.site/Nader-s-web3-Resources-for-Developers-a200ed2ef21c4d578dc158df2b882c63)
--   [Eda's Developer Resources](https://github.com/edakturk14/ethereum-developer-resources)
+- [Wagmi Hooks](https://wagmi.sh/react/hooks/useAccount)
+- [Scaffold-ETH Hooks](https://github.com/scaffold-eth/eth-ui/blob/next/packages/eth-hooks/README.md)
+- [Scaffold-ETH Components](https://github.com/scaffold-eth/eth-components)
+- [Additional README](https://scaffold-eth-2-docs.vercel.app/hooks/)
+- [Kevin's Social Media Contacts](https://hihello.me/p/6a93d967-1d9f-4818-ae0c-2dc9f86e01aa)
+- [Kevin's Mirror.xyz post](https://mirror.xyz/cryptomastery.eth/uGHEHnskoVwX-mWjAiidXfGt6QowCoKl_yX4okwZc0E)
+- [Scaffold-ETH Stuff](https://hihello.me/p/b914b816-fb27-4909-9525-16c74c7e7eef)
+- [Scaffold-ETH Workshops at ETH Global](https://www.youtube.com/results?search_query=Scaffold-ETH+Workshop+ETHGlobal+Kevin+Jones)
+- [The Graph Workshops at ETH Global](https://www.youtube.com/results?search_query=The+Graph+Workshop+ETHGlobal)
+- [0 to Buidl Guidl](https://lulox.notion.site/0-to-BuidlGuidl-4e1e835ba37c414199fe7a63cb5807e3)
+- [Austin's Web2 to Web3 Curriculum](https://github.com/austintgriffith/web2-to-web3-curriculum)
+- [Naders Web3 Resources for Developers](https://naderdabit.notion.site/Nader-s-web3-Resources-for-Developers-a200ed2ef21c4d578dc158df2b882c63)
+- [Eda's Developer Resources](https://github.com/edakturk14/ethereum-developer-resources)

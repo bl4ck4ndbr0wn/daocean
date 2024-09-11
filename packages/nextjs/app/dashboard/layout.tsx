@@ -1,6 +1,6 @@
-import { DaoProvider } from "~~/context/daoContext";
 import type { Metadata } from "next";
 import Sidebar from "~~/components/layout/sidebar";
+import { DaoProvider } from "~~/context/daoContext";
 
 export const metadata: Metadata = {
   title: "Dashboard",

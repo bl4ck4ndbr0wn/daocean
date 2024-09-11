@@ -1,5 +1,15 @@
 "use client";
 
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { HeaderMenuLink } from "../Header";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { useAccount } from "wagmi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,19 +18,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~~/components/ui/dropdown-menu";
-import React, { useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~~/components/ui/tooltip";
-
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import type { HeaderMenuLink } from "../Header";
-import Link from "next/link";
-import { gql } from "@apollo/client";
-import { useAccount } from "wagmi";
 import { useDao } from "~~/context/daoContext";
-import { usePathname } from "next/navigation";
-import { useQuery } from "@apollo/client";
 
 const menuLinks: HeaderMenuLink[] = [
   {

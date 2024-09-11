@@ -1,7 +1,6 @@
 import { Abi, AbiFunction } from "abitype";
-import { Contract, ContractName, GenericContract, InheritedFunctions } from "~~/utils/scaffold-eth/contract";
-
 import { WriteOnlyFunctionForm } from "~~/app/(root)/debug/_components/contract";
+import { Contract, ContractName, GenericContract, InheritedFunctions } from "~~/utils/scaffold-eth/contract";
 
 export const ContractWriteMethods = ({
   onChange,

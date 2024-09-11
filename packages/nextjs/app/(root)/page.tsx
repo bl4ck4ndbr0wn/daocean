@@ -1,10 +1,10 @@
 "use client";
 
+import { Button } from "~~/components/ui/button";
 import Image from "next/image";
+import { Input } from "~~/components/ui/input";
 import Link from "next/link";
 import type { NextPage } from "next";
-import { Button } from "~~/components/ui/button";
-import { Input } from "~~/components/ui/input";
 
 const Home: NextPage = () => {
   return (
@@ -17,11 +17,11 @@ const Home: NextPage = () => {
                 <div className="flex flex-col justify-center space-y-4">
                   <div className="space-y-2">
                     <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                      Empower Your DAO with MultiDAOTreasury
+                      Empower Your DAO with Daocean
                     </h1>
                     <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                      MultiDAOTreasury is a decentralized platform that enables DAOs to collectively manage their funds,
-                      making decentralized governance a reality.
+                      Daocean is a decentralized platform that enables DAOs to collectively manage their funds, making
+                      decentralized governance a reality.
                     </p>
                   </div>
                   <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -114,7 +114,7 @@ const Home: NextPage = () => {
                   <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Testimonials</div>
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">What Our Users Say</h2>
                   <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    Hear from our users about how MultiDAOTreasury has transformed their DAO\'s financial management.
+                    Hear from our users about how Daocean has transformed their DAO\'s financial management.
                   </p>
                 </div>
                 <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
@@ -129,9 +129,8 @@ const Home: NextPage = () => {
                       </div>
                     </div>
                     <p className="text-muted-foreground">
-                      "MultiDAOTreasury has been a game-changer for our DAO.\n The platform\'s intuitive interface and
-                      robust features\n have made it easy for our members to collaborate and\n manage our funds
-                      effectively."
+                      "Daocean has been a game-changer for our DAO.\n The platform\'s intuitive interface and robust
+                      features\n have made it easy for our members to collaborate and\n manage our funds effectively."
                     </p>
                   </div>
                   <div className="flex flex-col justify-center space-y-4 bg-muted p-6 rounded-lg">
@@ -145,9 +144,9 @@ const Home: NextPage = () => {
                       </div>
                     </div>
                     <p className="text-muted-foreground">
-                      "I\'ve been a member of several DAOs, but MultiDAOTreasury\n is by far the most user-friendly and
-                      effective platform\n I\'ve used. It\'s empowered our community to make\n well-informed decisions
-                      about our funds."
+                      "I\'ve been a member of several DAOs, but Daocean\n is by far the most user-friendly and effective
+                      platform\n I\'ve used. It\'s empowered our community to make\n well-informed decisions about our
+                      funds."
                     </p>
                   </div>
                 </div>
@@ -163,8 +162,8 @@ const Home: NextPage = () => {
                     Powerful Features for DAO Management
                   </h2>
                   <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    MultiDAOTreasury offers a comprehensive set of features to help your DAO manage its funds
-                    effectively and transparently.
+                    Daocean offers a comprehensive set of features to help your DAO manage its funds effectively and
+                    transparently.
                   </p>
                 </div>
                 <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
@@ -231,8 +230,8 @@ const Home: NextPage = () => {
               <div className="space-y-3">
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Join the DAO Revolution</h2>
                 <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  MultiDAOTreasury empowers your DAO to manage its funds effectively and transparently. Get started
-                  today and experience the power of decentralized governance.
+                  Daocean empowers your DAO to manage its funds effectively and transparently. Get started today and
+                  experience the power of decentralized governance.
                 </p>
               </div>
               <div className="mx-auto w-full max-w-sm space-y-2">
@@ -241,7 +240,7 @@ const Home: NextPage = () => {
                   <Button type="submit">Join a DAO</Button>
                 </form>
                 <p className="text-xs text-muted-foreground">
-                  Sign up to get started with MultiDAOTreasury.{" "}
+                  Sign up to get started with Daocean.{" "}
                   <Link href="#" className="underline underline-offset-2" prefetch={false}>
                     Terms &amp; Conditions
                   </Link>
