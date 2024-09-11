@@ -1,7 +1,5 @@
-import type { NextPage } from "next";
-import HeaderBreadcrumb from "~~/components/Breadcramb";
-import { Badge } from "~~/components/ui/badge";
-import { Button } from "~~/components/ui/button";
+"use client";
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~~/components/ui/card";
 import {
   DropdownMenu,
@@ -13,7 +11,16 @@ import {
 } from "~~/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~~/components/ui/table";
 
+import { Badge } from "~~/components/ui/badge";
+import { Button } from "~~/components/ui/button";
+import HeaderBreadcrumb from "~~/components/Breadcramb";
+import type { NextPage } from "next";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
+
 const Dashboard: NextPage = () => {
+  const { data: deployedContractData, isLoading: deployedContractLoading } =
+    useDeployedContractInfo("MultiDAOTreasury");
+
   return (
     <>
       <HeaderBreadcrumb name="Dashboard" href="/dashboard" />

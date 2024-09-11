@@ -181,6 +181,7 @@ contract MultiDAOTreasury is Ownable, ReentrancyGuard {
 		);
 
 		dao.members[msg.sender].isMember = true;
+		dao.members[msg.sender].isApproved = true;
 		dao.members[msg.sender].votePower = 1; // Initial voting power
 		dao.totalMembers++;
 

@@ -159,10 +159,10 @@ You should get a build completed output along with the address of your Subgraph 
 ```
 Build completed: QmYdGWsVSUYTd1dJnqn84kJkDggc2GD9RZWK5xLVEMB9iP
 
-Deployed to http://localhost:8000/subgraphs/name/scaffold-eth/your-contract/graphql
+Deployed to http://localhost:8000/subgraphs/name/scaffold-eth/multi-dao-treasury/graphql
 
 Subgraph endpoints:
-Queries (HTTP):     http://localhost:8000/subgraphs/name/scaffold-eth/your-contract
+Queries (HTTP):     http://localhost:8000/subgraphs/name/scaffold-eth/multi-dao-treasury
 ```
 
 Data is such a beautiful thing huh?

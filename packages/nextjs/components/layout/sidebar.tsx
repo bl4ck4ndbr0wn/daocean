@@ -1,12 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { HeaderMenuLink } from "../Header";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +8,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~~/components/ui/dropdown-menu";
+import React, { useState } from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~~/components/ui/tooltip";
+
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import type { HeaderMenuLink } from "../Header";
+import Link from "next/link";
+import { gql } from "@apollo/client";
+import { useAccount } from "wagmi";
+import { useDao } from "~~/context/daoContext";
+import { usePathname } from "next/navigation";
+import { useQuery } from "@apollo/client";
 
 const menuLinks: HeaderMenuLink[] = [
   {
@@ -82,7 +87,32 @@ export const SideMenuLinks = ({ links }: { links: HeaderMenuLink[] }) => {
   );
 };
 
+export const GET_DAOMYLIST = gql`
+  query MyQuery($owner: String!) {
+    daocreateds(orderDirection: desc, orderBy: name, where: { owner: $owner }) {
+      id
+      daoId
+      name
+    }
+  }
+`;
+
 export default function Sidebar() {
+  const { address: owner } = useAccount();
+  const { selectedDAO, setSelectedDAO } = useDao(); // Access the selected DAO
+
+  const {
+    loading,
+    error,
+    data: myDaoData,
+  } = useQuery(GET_DAOMYLIST, {
+    variables: { owner },
+  });
+
+  const daoList = myDaoData?.daocreateds || [];
+
+  console.log({ daoList, myDaoData, loading, error });
+
   return (
     <aside className="fixed inset-y-0 left-0 z-10 flex w-64 flex-col border-r bg-background sm:flex">
       <div className="flex items-center justify-between gap-4 border-b px-4 py-5">
@@ -92,35 +122,28 @@ export default function Sidebar() {
         </Link>
       </div>
       <nav className="flex flex-col items-start gap-4 px-4 py-5">
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button variant="destructive" className="flex items-center gap-2">
               <WalletIcon className="w-5 h-5" />
-              <span>0x1234...5678</span>
+              <span>{selectedDAO?.name || "Select a Dao"}</span>
               <ChevronDownIcon className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>Switch DAO</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <div className="flex items-center justify-between">
-                <span>DAO 1</span>
-                <Badge variant="secondary">Active</Badge>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="flex items-center justify-between">
-                <span>DAO 2</span>
-                <Badge variant="outline">Inactive</Badge>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="flex items-center justify-between">
-                <span>DAO 3</span>
-                <Badge variant="outline">Inactive</Badge>
-              </div>
-            </DropdownMenuItem>
+            {daoList.map(dao => (
+              <DropdownMenuItem key={dao.id} onSelect={() => setSelectedDAO(dao)}>
+                <div className="flex items-center justify-between">
+                  <span>{dao.name}</span>
+                  <Badge variant="secondary">Active</Badge>
+                </div>
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
         <TooltipProvider>

@@ -1,5 +1,5 @@
-import Image from "next/image";
-import type { NextPage } from "next";
+"use client";
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~~/components/ui/accordion";
 import {
   AlertDialog,
@@ -12,17 +12,59 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~~/components/ui/alert-dialog";
-import { Button } from "~~/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~~/components/ui/card";
-import { Input } from "~~/components/ui/input";
-import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
+import {
+  useScaffoldWriteContract,
+} from "~~/hooks/scaffold-eth";
 
-export const metadata = getMetadata({
-  title: "Join Dao",
-  description: "Debug your deployed 🏗 Scaffold-ETH 2 contracts in an easy way",
-});
+import { Button } from "~~/components/ui/button";
+import { Input } from "~~/components/ui/input";
+import type { NextPage, NextPage } from "next";
+import { Loader2 } from "lucide-react";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
+import { useRouter } from 'next/navigation';
+
+export const GET_DAOLIST = gql`
+  query MyQuery {
+    daocreateds(first: 10, orderBy: id, orderDirection: desc) {
+      blockNumber
+      blockTimestamp
+      daoId
+      id
+      name
+      owner
+      transactionHash
+    }
+  }
+`;
 
 const JoinDao: NextPage = () => {
+  const router = useRouter(); // Initialize the Next.js router
+  const { loading, error, data: daoData } = useQuery(GET_DAOLIST);
+
+  const daoList = daoData?.daocreateds || [];
+
+  console.log({ daoList, daoData, loading, error });
+
+  const { writeContractAsync: writeMultiDAOTreasuryAsync, isPending } = useScaffoldWriteContract("MultiDAOTreasury");
+
+  // Handle form submission
+  const handleRequestMembership = async (daoId:bigint) => {
+    try {
+      await writeMultiDAOTreasuryAsync({
+        functionName: "joinDAO",
+        args: [daoId],
+      });
+
+      // Redirect to the dashboard
+      router.push("/dashboard");
+    } catch (e) {
+      console.error("Error creating DAO:", e);
+    }
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto py-12 md:py-12">
       <div className="space-y-8">
@@ -38,38 +80,46 @@ const JoinDao: NextPage = () => {
             <Button variant="outline">Search</Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Acme DAO</CardTitle>
-                <CardDescription>ID: 123456</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Acme DAO is a decentralized autonomous organization focused on sustainable manufacturing.</p>
-              </CardContent>
-              <CardFooter>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="outline" className="w-full">
-                      Request Membership
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Join Acme DAO</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        By requesting membership, you agree to the DAO's constitution and will be expected to
-                        participate in governance decisions. Once your request is approved, you will be able to vote on
-                        proposals and contribute to the DAO's mission.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Request Membership</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </CardFooter>
-            </Card>
+            {loading &&  <div className="mt-14">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>}
+            {daoList.map(dao => (
+              <Card key={dao.id}>
+                <CardHeader>
+                  <CardTitle>{dao.name}</CardTitle>
+                  <CardDescription>ID: {dao.id.slice(0, 6) + "..." + dao.id.slice(-4)}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>A DAO is a decentralized autonomous organization focused on sustainable manufacturing.</p>
+                </CardContent>
+                <CardFooter>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        Request Membership
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Join {dao.name}</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          By requesting membership, you agree to the DAO's constitution and will be expected to
+                          participate in governance decisions. Once your request is approved, you will be able to vote
+                          on proposals and contribute to the DAO's mission.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction disabled={isPending} onClick={() => handleRequestMembership(dao.daoId)} >
+                        {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Request Membership "}
+
+                          </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         </div>
         <div className="space-y-4">
